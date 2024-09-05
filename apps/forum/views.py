@@ -1,18 +1,20 @@
-from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.views.generic import TemplateView, FormView
+from django.urls import reverse_lazy
 from . import forms
 
 
-def index(request: HttpRequest):
-    return render(request, 'forum/index.html')
+class Index(TemplateView):
+    template_name = 'forum/index.html'
 
 
-def new_message(request: HttpRequest):
-    if request.method == 'GET':
-        template_kwargs = {
-            'form': forms.ForumMessageForm()
-        }
-        return render(request, 'forum/new_message.html', template_kwargs)
+class Message(FormView):
+    template_name = 'forum/new_message.html'
+    success_url = reverse_lazy("forum_index")
+    form_class = forms.ForumMessageForm
 
-    # Добавление нового сообщения сделать тут
-    return redirect( index )
+    def form_valid(self, form):
+        message = form.save(commit=False)
+        message.sender = self.request.user
+        message.save()
+        print(form.cleaned_data)
+        return super().form_valid(form)

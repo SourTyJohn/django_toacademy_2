@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpRequest
+from django.contrib import messages
 import django.contrib.auth as auth
 from . import forms
 
@@ -11,9 +12,11 @@ def register(request: HttpRequest):
 
     register_form = forms.RegisterForm(request.POST)
     if not register_form.is_valid():
+        messages.info(request, register_form.errors)
         return redirect( register )
 
     user = register_form.save()
+    user.set_password( register_form.cleaned_data.get("password") )
     user.save()
     return redirect( login )
 
@@ -28,10 +31,16 @@ def login(request: HttpRequest):
     if not login_form.is_valid():
         pass
 
-    password = login_form.cleaned_data.get('password')
-    username = login_form.cleaned_data.get('username')
+    password = request.POST.get('password')
+    username = request.POST.get('username')
     user = auth.authenticate(
         request, password=password, username=username
     )
 
-    return redirect( login )
+    if user is None:
+        messages.info(request, "Неверный логин или пароль!")
+        return redirect( login )
+
+    else:
+        auth.login(request, user)
+        return redirect( reverse('forum_index') )

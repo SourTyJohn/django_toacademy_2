@@ -1,6 +1,10 @@
 {% extends "users/base.html" %}
 {% block content %}
 <div class="formWrapper">
+    {% for msg in messages %}
+        <div>{{ msg }}</div>
+    {% endfor %}
+
     <form method="post" action="login">
         {% csrf_token %}
         {% for field in form %}

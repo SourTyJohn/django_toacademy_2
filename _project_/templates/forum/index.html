@@ -2,5 +2,13 @@
 {% block content %}
 
     Титульная страница форума
+    {% if user %}
+        <div>Аккаунт: {{user.username}}</div>
+    {% else %}
+        <div>
+            Вы не зарегистрированы!
+            <a href="{% url 'register' %}">Регистрация</a>
+        </div>
+    {% endif %}
 
 {% endblock %}
