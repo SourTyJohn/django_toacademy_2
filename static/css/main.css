@@ -1,0 +1,27 @@
+body{
+    font-family: "Times New Roman";
+    font-size: 20px;
+}
+
+.form-wrapper{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+
+    min-width: 30%;
+}
+.form-field-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4px;
+}
+.form-field-wrapper > input,
+.form-wrapper > form > input{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

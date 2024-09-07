@@ -1,0 +1,19 @@
+.navbar-wrapper{
+    display: flex;
+    margin-bottom: 10px;
+    background-color: #c4ddf2;
+}
+
+.navbar-item{
+    float: left;
+    padding: 16px;
+}
+.navbar-item:hover{
+    float: left;
+    background-color: #b0d7f6;
+}
+
+.navbar-item > a{
+    text-decoration: none;
+    color: black;
+}

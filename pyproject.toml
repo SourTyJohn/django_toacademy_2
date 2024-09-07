@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "django-toacademy-2"
+version = "0.1.0"
+description = "Learning django project"
+authors = ["JohnSour <mr.ukhov@list.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

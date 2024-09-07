@@ -1,46 +1,27 @@
-from django.shortcuts import render, redirect, reverse
-from django.http import HttpRequest
-from django.contrib import messages
-import django.contrib.auth as auth
-from . import forms
+from django.contrib.messages.views import SuccessMessageMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
+
+from django.views.generic import FormView
+from django.urls import reverse_lazy
+from .forms import UserRegisterForm
+from utils.mixins import SaveValidFormMixin
 
 
-def register(request: HttpRequest):
-    if request.method == 'GET':
-        template_kwargs = {'form': forms.RegisterForm()}
-        return render(request, 'users/register.html', template_kwargs)
-
-    register_form = forms.RegisterForm(request.POST)
-    if not register_form.is_valid():
-        messages.info(request, register_form.errors)
-        return redirect( register )
-
-    user = register_form.save()
-    user.set_password( register_form.cleaned_data.get("password") )
-    user.save()
-    return redirect( login )
+class UserLoginView(SuccessMessageMixin, LoginView):
+    template_name = 'login.html'
+    success_url = reverse_lazy("index")
+    success_message = "Вход успешен!"
 
 
-def login(request: HttpRequest):
-    if request.method == 'GET':
-        template_kwargs = { 'form': forms.LoginForm() }
-        return render(request, 'users/login.html', template_kwargs)
+class UserLogoutView(LoginRequiredMixin, LogoutView):
+    next_page = reverse_lazy('index')
+    success_message = "Вы вышли из аккаунта!"
 
-    login_form = forms.LoginForm(request.POST)
 
-    if not login_form.is_valid():
-        pass
-
-    password = request.POST.get('password')
-    username = request.POST.get('username')
-    user = auth.authenticate(
-        request, password=password, username=username
-    )
-
-    if user is None:
-        messages.info(request, "Неверный логин или пароль!")
-        return redirect( login )
-
-    else:
-        auth.login(request, user)
-        return redirect( reverse('forum_index') )
+class UserCreateView(SuccessMessageMixin, SaveValidFormMixin, FormView):
+    template_name = 'register.html'
+    success_message = "Вы успешно зарегестрировались"
+    success_url = reverse_lazy("login")
+    form_class = UserRegisterForm

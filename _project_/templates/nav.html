@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="navbar-wrapper">
+
+        <div class="navbar-item">
+            <a href="{% url 'index' %}">Главная</a>
+        </div>
+
+        {% if user.is_authorized %}
+        <div class="navbar-item">
+            <a href="{% url 'new_message' %}">Новое Сообщение</a>
+        </div>
+        {% endif %}
+
+        <div class="navbar-item">
+            <a href="{% url 'login' %}">Войти</a>
+        </div>
+
+        <div class="navbar-item">
+            <a href="{% url 'register' %}">Зарегестрироваться</a>
+        </div>
+
+    </div>
+</nav>
