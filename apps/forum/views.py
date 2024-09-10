@@ -1,14 +1,10 @@
-from django.views.generic import TemplateView, FormView
+from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . import forms
 
 
-class Index(TemplateView):
-    template_name = 'index.html'
-
-
-class Message(LoginRequiredMixin, FormView):
+class MessageCreationView(LoginRequiredMixin, FormView):
     login_url = reverse_lazy('login')
 
     template_name = 'new_message.html'

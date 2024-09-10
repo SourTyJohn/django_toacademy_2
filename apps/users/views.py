@@ -11,7 +11,7 @@ from utils.mixins import SaveValidFormMixin
 
 class UserLoginView(SuccessMessageMixin, LoginView):
     template_name = 'login.html'
-    success_url = reverse_lazy("index")
+    next_page = reverse_lazy("index")
     success_message = "Вход успешен!"
 
 

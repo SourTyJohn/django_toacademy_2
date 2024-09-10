@@ -4,11 +4,21 @@
     Титульная страница форума
     {% if user %}
         <div>Аккаунт: {{user.username}}</div>
+
     {% else %}
         <div>
             Вы не зарегистрированы!
             <a href="{% url 'register' %}">Регистрация</a>
         </div>
     {% endif %}
+
+    {% for message in messages %}
+        <div>
+            <hr>
+            {{ message.content }}
+                <img src="media/{{message.attached_file}}">
+            <hr>
+        </div>
+    {% endfor %}
 
 {% endblock %}

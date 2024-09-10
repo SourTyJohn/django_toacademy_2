@@ -8,4 +8,8 @@ class ForumMessage(models.Model):
     )
     creation_date = models.DateTimeField(auto_now=True)
 
-    attached_file = models.FileField(blank=True, default=None)
+    attached_file = models.FileField(blank=True, default=None, upload_to='forum_messages')
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.all()

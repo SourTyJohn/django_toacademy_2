@@ -1,8 +1,9 @@
 from django import forms
+from utils.mixins import SaveValidFormMixin
 from . import models
 
 
-class ForumMessageForm(forms.ModelForm):
+class ForumMessageForm(SaveValidFormMixin, forms.ModelForm):
     class Meta:
         model = models.ForumMessage
         fields = ('content', 'attached_file')

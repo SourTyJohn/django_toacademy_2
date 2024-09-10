@@ -5,7 +5,7 @@
             <a href="{% url 'index' %}">Главная</a>
         </div>
 
-        {% if user.is_authorized %}
+        {% if user.is_authenticated %}
         <div class="navbar-item">
             <a href="{% url 'new_message' %}">Новое Сообщение</a>
         </div>
